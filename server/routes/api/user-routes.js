@@ -4,6 +4,7 @@ const {
   getAllUsers,
   getSingleUser,
   saveShow,
+  getShow,
   updateShow,
   deleteShow,
   login,
@@ -21,7 +22,8 @@ router.route('/me').get(authMiddleware, getSingleUser);
 
 router.route('/:username').get(getSingleUser);
 
-// is post or put the most appropriate?
+router.route('/shows/:id').get(authMiddleware, getShow);
+
 router.route('/shows/:id').put(authMiddleware, updateShow);
 
 router.route('/shows/:id').delete(authMiddleware, deleteShow);
