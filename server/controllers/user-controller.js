@@ -66,10 +66,11 @@ module.exports = {
     //get a show
     async getShow({ user, params }, res) {
         console.log(user);
+        console.log(params);
         try {
             const showRes = await User.findOne(
-                { _id: user._id, 'shows.title': params.showTitle },
-                'shows.$'
+                { _id: user._id, 'savedShows.tvMazeId': params.id },
+                'savedShows.$'
             );
             return res.json(showRes);
         } catch (err) {
@@ -84,8 +85,8 @@ module.exports = {
         console.log(user);
         try {
             const updatedShow = await User.findOneAndUpdate(
-                {_id: user._id, 'shows.title': params.showTitle}, //match userid, show.title matches the param
-                {'shows.$': body}, //update the show at found index with body
+                {_id: user._id, 'savedShows.tvMazeId': params.id }, //match userid, show.title matches the param
+                {'savedShows.$': body}, //update the show at found index with body
                 {new: true, runValidators: true}
                 );
             return res.json(updatedShow);
