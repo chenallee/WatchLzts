@@ -100,7 +100,7 @@ module.exports = {
     async deleteShow({ user, params }, res) {
         const updatedUser = await User.findOneAndUpdate(
             { _id: user._id },
-            { $pull: { savedShows: { showId: params.id } } },
+            { $pull: { savedShows: { tvMazeId: params.id } } },
             { new: true }
         );
         if (!updatedUser) {
