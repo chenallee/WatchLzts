@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { FiLogIn, FiLogOut, FiList } from 'react-icons/fi'
 import {
-    Box, Button, IconButton,
+    Flex, Box, Button, IconButton,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
     Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure
 } from "@chakra-ui/core";
@@ -16,8 +16,6 @@ import AuthService from '../utils/auth';
 
 
 function Navbar() {
-    //
-    // const [showModal, setShowModal] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const { username } = useContext(UserInfoContext);
@@ -25,19 +23,19 @@ function Navbar() {
     return (
         <>
             {/* NAVBAR */}
-            <Box as='nav'>
+            <Flex as='nav' p='.5rem' backgroundImage='url(https://live.staticflickr.com/4583/37647876375_41366fc17d_b.jpg)' justify='flex-end'>
                 <IconButton icon='moon' />
                 {username ? (
                     <>
                         <Button as={Link} to='/watchlzts' variantColor='junglegreen' aria-label="Search database" leftIcon={FiList}> my lzts </Button>
-                        <Button onClick={AuthService.logout} variant='ghost' variantColor="#577590" _hover={{ bg: "#577590" }} aria-label="Search database" leftIcon={FiLogOut}> log out</Button>
+                        <Button onClick={AuthService.logout} aria-label="Search database" leftIcon={FiLogOut}> log out</Button>
 
                     </>
                 ) : (
-                        <Button onClick={onOpen} variant='ghost' variantColor="#577590" _hover={{ bg: "#577590" }} aria-label="Search database" leftIcon={FiLogIn}> log in</Button>
+                        <Button onClick={onOpen} variant='solid' aria-label="Search database" leftIcon={FiLogIn}> log in</Button>
                     )}
 
-            </Box>
+            </Flex>
             {/* MODAL - let's make this its own component and pass in defaultIndex */}
             <Modal isOpen={isOpen} onClose={onClose} size='xl'>
                 <ModalOverlay />
