@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/core";
 
 import SignUpForm from './SignupForm';
+import LogInForm from './LoginForm';
 
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
@@ -37,7 +38,7 @@ function Navbar() {
                     )}
 
             </Box>
-            {/* MODAL */}
+            {/* MODAL - let's make this its own component and pass in defaultIndex */}
             <Modal isOpen={isOpen} onClose={onClose} size='xl'>
                 <ModalOverlay />
                 {/* tab will show either login or sign up form ... since here we access from login that will be the default */}
@@ -51,8 +52,7 @@ function Navbar() {
                             </TabList>
                             <TabPanels>
                                 <TabPanel>
-                                    login
-                                    {/* <LogInForm onClose={onClose} /> */}
+                                    <LogInForm onClose={onClose} />
                                 </TabPanel>
                                 <TabPanel>
                                     <SignUpForm onClose={onClose} />
@@ -61,10 +61,7 @@ function Navbar() {
 
                         </Tabs>
                     </ModalBody>
-
                 </ModalContent>
-
-
             </Modal>
 
 
