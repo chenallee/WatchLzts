@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import { CSSReset, ThemeProvider, theme } from "@chakra-ui/core";
+
 import Welcome from './pages/Welcome';
 import Explore from './pages/Explore';
 import Watchlists from './pages/Watchlists';
@@ -11,8 +13,20 @@ import * as API from './utils/API';
 import AuthService from './utils/auth';
 import UserInfoContext from './utils/UserInfoContext';
 
-function App() {
+import customColors from './utils/colors';
 
+const customTheme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+    ...customColors,
+  }
+};
+
+
+
+function App() {
+  
   const [userInfo, setUserInfo] = useState({
     savedShows: [],
     username: '',
@@ -37,12 +51,15 @@ function App() {
     useEffect(() => {
       userInfo.getUserData();
     });
-
+    
   return (
-    <Router>
+    <ThemeProvider theme={customTheme} >
+    
+      <CSSReset />
+      <Router>
       <>
       <UserInfoContext.Provider value={userInfo}>
-      {/* <Navbar /> */}
+      <Navbar />
       <Switch>
         <Route exact path='/' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
         <Route exact path='/explore' component={Explore}/>
@@ -52,7 +69,12 @@ function App() {
       </UserInfoContext.Provider>
       </>
     </Router>
+     </ThemeProvider>
+  
   );
 }
+
+
+  
 
 export default App;
