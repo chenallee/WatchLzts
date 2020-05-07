@@ -10,8 +10,6 @@ import AuthService from '../utils/auth';
 function SignupForm({ onClose }){
       // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
-  const [validated, setValidation] = useState(false);
 
   // get context object from app.js
   const userData = useContext(UserInfoContext);
@@ -24,31 +22,23 @@ function SignupForm({ onClose }){
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
-    // const form = e.currentTarget;
-    // if (form.checkValidity() === false) {
-    //   e.preventDefault();
-    //   e.stopPropagation();
-    // }
-
     console.log(userFormData);
-    onClose();
 
-    // send new user data to server, receiving the JWT and user data in return
-    // createUser(userFormData)
-    //   .then(({ data: { token, user } }) => {
-    //     // set token to localstorage
-    //     AuthService.login(token);
-    //     // execute function from context api in app.js to update state for logged in user
-    //     userData.getUserData();
-    //     // close modal
-    //     onClose();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response);
-    //     setShowAlert(true);
-    //     setErrorText(err.response.data.message);
-    //   });
+    //send new user data to server, receiving the JWT and user data in return
+    createUser(userFormData)
+      .then(({ data: { token, user } }) => {
+        // set token to localstorage
+        AuthService.login(token);
+        // execute function from context api in app.js to update state for logged in user
+        userData.getUserData();
+        // close modal
+        onClose();
+      })
+      .catch((err) => {
+        console.log(err.response);
+        // setShowAlert(true);
+        // setErrorText(err.response.data.message);
+      });
   };
 
   return (

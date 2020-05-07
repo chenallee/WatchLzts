@@ -51,7 +51,7 @@ function App() {
     useEffect(() => {
       userInfo.getUserData();
     });
-    
+
   return (
     <ThemeProvider theme={customTheme} >
     
@@ -64,7 +64,7 @@ function App() {
         <Route exact path='/' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
         <Route exact path='/explore' component={Explore}/>
         <Route exact path='/watchlzts' component={Watchlists}/>
-        <Route render={() => <h1 className=''> This is not the page you're looking for... </h1>} />
+        <Route render={() => <h1> This is not the page you're looking for... </h1>} />
       </Switch>
       </UserInfoContext.Provider>
       </>
