@@ -18,7 +18,8 @@ function Show({ show }) {
     }
 
     return (
-        <Flex overflow='hidden' key={show.tvMazeId} align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg' >
+        
+        <Flex overflow='hidden' key={show.tvMazeId} align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg'>
             <Image onClick={handleToggle} cursor='pointer' overflow='hidden' width='100%' src={show.image} alt={`${show.title} cover`} />
             <Flex flexDir='column' p='1rem' minWidth='100%'>
                 <PseudoBox onClick={handleToggle} cursor='pointer' display='flex' flexDir='row' alignItems='center' justifyContent='flex-start'>
