@@ -4,7 +4,8 @@ import { Box, Flex, Heading, Text,
     AccordionItem,
     AccordionHeader,
     AccordionPanel,
-    AccordionIcon, } from "@chakra-ui/core";
+    AccordionIcon,
+    SimpleGrid, } from "@chakra-ui/core";
 
 // import context for global state
 import UserInfoContext from '../utils/UserInfoContext';
@@ -12,26 +13,20 @@ import UserInfoContext from '../utils/UserInfoContext';
 import * as API from '../utils/API';
 import AuthService from '../utils/auth';
 
+import Show from '../components/Show';
+
 function Watchlists() {
     // get whole userData state object from App.js
     const userData = useContext(UserInfoContext);
 
-
     return (
-        <Flex flexDir='column' justify='center' align='center'>
-            <Heading>{userData.username}'s Watchlzts</Heading>
-            <Flex width='80%'>
+        <Flex p='1rem' rounded='lg' bg='white' flexDir='column' justify='center' align='start' mx='auto' width={{ base: '100%', md: '80%' }}>
+            <Heading align='start'>📺 {userData.username}'s Watchlzts</Heading>
+            <Flex width='100%'>
         {userData.savedShows.length ? (
             <>
-            {/* {userData.savedShows.map((show) => {
-                return(
-                    <Box>
-                        <Heading as='h4' size='lg'>{show.title}</Heading>
-
-                    </Box>
-                )
-            })} */}
             <Accordion allowToggle width='100%' defaultIndex={1}>
+                {/* potentially make each accordion item its own component and pass in category */}
                 <AccordionItem>
                     <AccordionHeader>
                         <Box  textAlign="left">
@@ -43,17 +38,15 @@ function Watchlists() {
                     
                     {userData.savedShows.find((show) => {
                         return show.watchStatus === 'to watch';}) ? 
-                    (<>
+                    (<SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl:4}}>
                         {userData.savedShows.map((show) => {
                             if(show.watchStatus === 'to watch'){
                                 return(
-                                    <Box>
-                                        <Heading as='h4' size='lg'>{show.title}</Heading>
-                                    </Box>
+                                    <Show/>
                                 )
                             }
                         })}
-                     </>) : (<Text> You haven't added any shows you plan to watch! </Text>)}
+                     </SimpleGrid>) : (<Text> You haven't added any shows you plan to watch! </Text>)}
                     </AccordionPanel>
                 </AccordionItem>
 
@@ -67,17 +60,15 @@ function Watchlists() {
                     <AccordionPanel pb={4}>
                     {userData.savedShows.find((show) => {
                         return show.watchStatus === 'watching';}) ? 
-                    (<>
-                        {userData.savedShows.map((show) => {
-                            if(show.watchStatus === 'watching'){
-                                return(
-                                    <Box>
-                                        <Heading as='h4' size='lg'>{show.title}</Heading>
-                                    </Box>
-                                )
-                            }
-                        })}
-                     </>) : (<Text> You're not watching anything! </Text>)}
+                        (<SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl:4}}>
+                            {userData.savedShows.map((show) => {
+                                if(show.watchStatus === 'watching'){
+                                    return(
+                                        <Show show={show}/>
+                                    )
+                                }
+                            })}
+                         </SimpleGrid>) : (<Text> You're not watching anything! </Text>)}
                     </AccordionPanel>
                 </AccordionItem>
 
@@ -91,17 +82,15 @@ function Watchlists() {
                     <AccordionPanel pb={4}>
                     {userData.savedShows.find((show) => {
                         return show.watchStatus === 'completed';}) ? 
-                    (<>
-                        {userData.savedShows.map((show) => {
-                            if(show.watchStatus === 'completed'){
-                                return(
-                                    <Box>
-                                        <Heading as='h4' size='lg'>{show.title}</Heading>
-                                    </Box>
-                                )
-                            }
-                        })}
-                     </>) : (<Text> You haven't completed any shows! </Text>)}
+                        (<SimpleGrid columns={{sm: 1, md: 2, lg: 3, xl:4}}>
+                            {userData.savedShows.map((show) => {
+                                if(show.watchStatus === 'completed'){
+                                    return(
+                                        <Show show={show}/>
+                                    );
+                                }
+                            })}
+                         </SimpleGrid>) : (<Text> You haven't completed any shows! </Text>)}
                     
                     </AccordionPanel>
                 </AccordionItem>

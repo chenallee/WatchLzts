@@ -23,7 +23,7 @@ function Navbar() {
     return (
         <>
             {/* NAVBAR */}
-            <Flex as='nav' p='.5rem' backgroundImage='url(https://live.staticflickr.com/4583/37647876375_41366fc17d_b.jpg)' justify='flex-end'>
+            <Flex as='nav' p='.5rem'  justify='flex-end'>
                 <IconButton icon='moon' />
                 {username ? (
                     <>
@@ -40,7 +40,7 @@ function Navbar() {
             <Modal isOpen={isOpen} onClose={onClose} size='xl'>
                 <ModalOverlay />
                 {/* tab will show either login or sign up form ... since here we access from login that will be the default */}
-                <ModalContent>
+                <ModalContent rounded='lg'>
                     <ModalCloseButton />
                     <ModalBody>
                         <Tabs defaultIndex={0}>
