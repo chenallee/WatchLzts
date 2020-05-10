@@ -65,7 +65,7 @@ function LoginForm({ onClose }) {
                 </FormControl>
 
                 <Button type='submit'>Log in</Button>
-                <FormHelperText textAlign='center'>Welcome back! 👋  </FormHelperText>
+                <FormHelperText textAlign='center'>Welcome back! <span role='img' aria-label='waving emoji'>👋 </span> </FormHelperText>
             </Stack>
 
         </form>

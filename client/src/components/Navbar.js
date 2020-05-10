@@ -23,16 +23,16 @@ function Navbar() {
     return (
         <>
             {/* NAVBAR */}
-            <Flex as='nav' p='.5rem'  justify='flex-end'>
-                <IconButton icon='moon' />
+            <Flex as='nav' p='.5rem'  justify='flex-end' className=''>
+                <IconButton variant='ghost' variantColor='yelloworange' icon='moon' />
                 {username ? (
                     <>
-                        <Button as={Link} to='/watchlzts' variantColor='junglegreen' aria-label="Search database" leftIcon={FiList}> my lzts </Button>
-                        <Button onClick={AuthService.logout} aria-label="Search database" leftIcon={FiLogOut}> log out</Button>
+                        <Button as={Link} to='/watchlzts' variant='ghost' variantColor='junglegreen' aria-label="Search database" leftIcon={FiList}> my lzts </Button>
+                        <Button onClick={AuthService.logout} variant='ghost' variantColor='queenblue' aria-label="Search database" leftIcon={FiLogOut}> log out</Button>
 
                     </>
                 ) : (
-                        <Button onClick={onOpen} variant='solid' aria-label="Search database" leftIcon={FiLogIn}> log in</Button>
+                        <Button onClick={onOpen} variant='ghost' variantColor='queenblue' aria-label="Search database" leftIcon={FiLogIn}> log in</Button>
                     )}
 
             </Flex>

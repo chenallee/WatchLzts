@@ -21,12 +21,12 @@ function Watchlists() {
     const userData = useContext(UserInfoContext);
 
     return (
-        <Flex p='1rem' rounded='lg' bg='white' flexDir='column' justify='center' align='start' mx='auto' width={{ base: '100%', md: '80%' }}>
-            <Heading align='start'>📺 {userData.username}'s Watchlzts</Heading>
+        <Flex p='1rem' rounded='lg'  flexDir='column' justify='center' align='start' mx='auto' width={{ base: '100%', md: '80%' }}>
+            <Heading as='h2' fontWeight='extrabold' marginBottom='1rem' align='start' color=''>📺 {userData.username}'s Watchlzts</Heading>
             <Flex width='100%'>
         {userData.savedShows.length ? (
             <>
-            <Accordion allowToggle width='100%' defaultIndex={1}>
+            <Accordion width='100%' defaultIndex={1}>
 
                 <AccordionItem>
                     <WatchCategory category='to watch' />
