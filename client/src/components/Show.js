@@ -7,7 +7,9 @@ import UserInfoContext from '../utils/UserInfoContext';
 
 import * as API from '../utils/API';
 
-function Show({ show }) {
+import { getEpisodes } from '../utils/API';
+
+function Show({ show, cateColor }) {
     const [showMore, setShowMore] = useState(false);
     const handleToggle = () => setShowMore(!showMore);
 
@@ -17,10 +19,18 @@ function Show({ show }) {
         return { __html: show.summary };
     }
 
+    function getEpis(){
+        getEpisodes(show.tvMazeId)
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((err) => console.log(err));
+    }
+
     return (
         
-        <Flex overflow='hidden' key={show.tvMazeId} align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg'>
-            <Image onClick={handleToggle} cursor='pointer' overflow='hidden' width='100%' src={show.image} alt={`${show.title} cover`} />
+        <Flex bg='white' overflow='hidden' key={show.tvMazeId} align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg'>
+            <Image onClick={getEpis} cursor='pointer' overflow='hidden' width='100%' src={show.image} alt={`${show.title} cover`} />
             <Flex flexDir='column' p='1rem' minWidth='100%'>
                 <PseudoBox onClick={handleToggle} cursor='pointer' display='flex' flexDir='row' alignItems='center' justifyContent='flex-start'>
                     <Heading as='h4' size='lg'> {show.title} </Heading> <Icon marginLeft='.5rem' name="info" /> 
@@ -28,9 +38,9 @@ function Show({ show }) {
                 </PseudoBox>
 
                 <Select
-                    backgroundColor="tomato"
-                    borderColor="tomato"
-                    color="white"
+                    backgroundColor={`${cateColor}.500`}
+                    border={`${cateColor}.500`}
+                    color='white'
                     value={show.watchStatus}
                 // onChange -> update show
                 >
@@ -49,6 +59,7 @@ function Show({ show }) {
                                 <Text as='sub' letterSpacing='3px' textDecoration={season.watchedEpis === season.seasonEpis ? 'line-through' : 'none' }>
                                     S{season.seasonName} - {season.watchedEpis}/{season.seasonEpis} 
                                     {/* {season.watchedEpis === season.seasonEpis ? (<></>) : (<IconButton variantColor="green" aria-label="Search database" icon="small-add" />) } */}
+                                    
                                 </Text>
                             );
                         })}
