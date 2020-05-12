@@ -98,14 +98,20 @@ module.exports = {
 
     // remove a show from `savedShows`
     async deleteShow({ user, params }, res) {
-        const updatedUser = await User.findOneAndUpdate(
-            { _id: user._id },
-            { $pull: { savedShows: { tvMazeId: params.id } } },
-            { new: true }
-        );
-        if (!updatedUser) {
-            return res.status(404).json({ message: "Couldn't find user with this id!" });
+        try{
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: user._id },
+                { $pull: { savedShows: { tvMazeId: params.id } } },
+                { new: true }
+            );
+            if (!updatedUser) {
+                return res.status(404).json({ message: "Couldn't find user with this id!" });
+            }
+            return res.json(updatedUser);
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json(err);
         }
-        return res.json(updatedUser);
+       
     },
 };

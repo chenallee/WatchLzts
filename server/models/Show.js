@@ -36,7 +36,7 @@ const showSchema = new Schema({
     },
     //from tvMaze API after show is first added
     tvMazeId: {
-        type: Number,
+        type: String,
         required: true
     },
     watchStatus: {
@@ -70,3 +70,5 @@ const showSchema = new Schema({
         */
     ]
 })
+
+module.exports = showSchema;

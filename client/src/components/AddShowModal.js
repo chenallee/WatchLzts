@@ -5,13 +5,13 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
 
-import { saveShow, searchTvMaze, getEpisodes } from '../utils/API';
+import { searchTvMaze, getSeasons, getEpisodes, saveShow, getShow, updateShow } from '../utils/API';
 
 function AddShowModal({ defaultCategory, cateColor }) {
     const [searchedShows, setSearchedShows] = useState([]);
 
     const [searchInput, setSearchInput] = useState('');
-    
+
     const userData = useContext(UserInfoContext);
 
     function returnSummary(summary) {
@@ -20,6 +20,8 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
     // create method to search for books and set state on form submit
     const handleFormSubmit = (event) => {
+        //searchedShows.empty();
+        //console.log(searchedShows);
         event.preventDefault();
 
         if (!searchInput) {
@@ -28,18 +30,107 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
         searchTvMaze(searchInput)
             .then(({ data }) => {
-                console.log(data);
+                //console.log(data);
                 const showData = data.map(({ show }) => ({
                     tvMazeId: show.id,
                     title: show.name,
                     summary: show.summary,
-                    image: show.image?.original || `https://via.placeholder.com/680x1000?text=No+Image`
+                    image: show.image?.original || `https://via.placeholder.com/680x1000?text=No+Image`,
+                    watchStatus: defaultCategory,
+
                 }));
+                //showData.episodes.length = 0;
 
                 return setSearchedShows(showData);
             })
             .catch((err) => console.log(err));
 
+    }
+
+    const stageWatchStatus = (status, showId) => {
+        const showToEffect = searchedShows.find((show) => show.tvMazeId == showId);
+        // console.log(showToEffect);
+        showToEffect.watchStatus = status;
+    }
+
+    async function formatEpis(season) {
+        if (!season.episodeOrder) {
+            let episodesRes = await getEpisodes(season.id);
+            console.log(episodesRes.data);
+            let seasonEpis = (episodesRes.data).length;
+            return seasonEpis;
+        } else {
+            let seasonEpis = season.episodeOrder;
+            return seasonEpis;
+        }
+    }
+
+    async function formatSeason(season, status) {
+        let formattedSeason = {
+            id: season.id,
+            seasonName: season.number,
+            seasonEpis: await formatEpis(season)
+        }
+        console.log(formattedSeason);
+
+        //if episodeOrder: null, 
+
+        if (status === 'completed') {
+            formattedSeason.watchedEpis = formattedSeason.seasonEpis;
+        }
+        if (status === 'to watch' || status === 'watching') {
+            formattedSeason.watchedEpis = 0;
+        }
+        if (status === 'watching' && formattedSeason.seasonName === 1) {
+            formattedSeason.watchedEpis = 1;
+        }
+
+        //if after we retrieve episodes from tvmaze, and it's still false... the season may not have aired/smthng else ... for now let's just not save that season. later on, potential to let user input manually
+        if (!formattedSeason.seasonEpis) {
+            throw new Error('no episodes');
+        }
+        return formattedSeason;
+    }
+
+    async function populateSeasons(showToSave, seasonData) {
+        seasonData.forEach((season) => {
+
+            formatSeason(season, showToSave.watchStatus)
+                .then((formattedSeason) => {
+                    console.log(formattedSeason);
+                    showToSave.episodes.push(formattedSeason);
+                })
+                .catch((err) => console.log(err));
+        })
+        console.log(showToSave);
+        return showToSave;
+    }
+
+
+    async function handleSaveShow(showId) {
+
+        let showToFormat = searchedShows.find((show) => show.tvMazeId == showId);
+        //searchedShows.splice(showToSave);
+        console.log(searchedShows);
+
+        // get token
+        const token = AuthService.loggedIn() ? AuthService.getToken() : null;
+
+        if (!token) {
+            return false;
+        }
+
+        showToFormat.episodes = [];
+
+        let { data: seasonData } = await getSeasons(showId);
+        let showToSave = await populateSeasons(showToFormat, seasonData)
+        // .then(() => console.log(showToSave))
+        console.log(showToSave);
+
+
+        saveShow(showToSave, token)
+            .then(() => userData.getUserData())
+            .catch((err) => console.log(err));
     }
 
     return (
@@ -73,20 +164,21 @@ function AddShowModal({ defaultCategory, cateColor }) {
                                             </AspectRatioBox>
                                             <Heading as='h4' size='lg' alignSelf='center' marginY='1rem'>{show.title}</Heading>
 
-                                            <Select 
+                                            <Select
                                                 disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}
                                                 backgroundColor={`${cateColor}.500`}
                                                 border={`${cateColor}.500`}
                                                 color='white'
-                                                value={defaultCategory}
-                                                // onChange={}
+                                                value={show.watchStatus}
+                                                onChange={(e) => stageWatchStatus(e.target.value, show.tvMazeId)}
                                             >
                                                 <option value="to watch">to watch</option>
                                                 <option value="watching">watching</option>
                                                 <option value="completed">completed</option>
                                             </Select>
                                             <Button leftIcon="add" variantColor="teal" variant="outline"
-                                            disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}>
+                                                onClick={() => handleSaveShow(show.tvMazeId)}
+                                                disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}>
                                                 {userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)
                                                     ? 'Already on list!'
                                                     : 'Add to list!!'}

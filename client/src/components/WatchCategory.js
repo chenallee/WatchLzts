@@ -49,7 +49,7 @@ function WatchCategory({ category }) {
                             {userData.savedShows.map((show) => {
                                 if (show.watchStatus === category) {
                                     return (
-                                        <Show show={show} cateColor={cateColors[category]} />
+                                        <Show key={show.tvMazeId} show={show} cateColor={cateColors[category]} />
                                     )
                                 }
                             })}
