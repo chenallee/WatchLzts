@@ -50,7 +50,8 @@ function App() {
     // on load, get user data if a token exists
     useEffect(() => {
       userInfo.getUserData();
-    });
+
+    }, []);
 
   return (
     <ThemeProvider theme={customTheme} >

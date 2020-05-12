@@ -41,7 +41,9 @@ function WatchCategory({ category }) {
                 <AccordionIcon />
             </AccordionHeader>
             <AccordionPanel pb={4} bgImage=' url(https://live.staticflickr.com/4583/37647876375_41366fc17d_b.jpg);'>
-                <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }}>
+                <SimpleGrid 
+                // columns={{ sm: 1, md: 2, lg: 3 }} 
+                spacing='1rem' minChildWidth='300px'>
                     {userData.savedShows.find((show) => {
                         return show.watchStatus === category;
                     }) ?
@@ -53,13 +55,23 @@ function WatchCategory({ category }) {
                                     )
                                 }
                             })}
-                            <Flex textAlign='center' bg='white' p='2rem' overflow='hidden' justify='center' align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg' >
+                            <Flex textAlign='center' bg='white' p='2rem' overflow='hidden' justify='center' align='center' rounded='lg' 
+                            width='300px'
+                            height='480px'
+                            mx='auto'
+                            // mx={{ sm: '5rem', md: '1rem' }} 
+                            flexDir='column' shadow='lg' >
                                 <Button onClick={onOpen} rightIcon="small-add" variant='ghost' variantColor={cateColors[category]}> Add Show</Button>
                                 {/* <IconButton aria-label="Search database" icon="small-add" variant='ghost' variantColor={cateColors[category]} /> */}
                             </Flex>
                         </>
                         ) : (
-                            <Flex textAlign='center' bg='white' p='2rem' overflow='hidden' justify='center' align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg' >
+                            <Flex textAlign='center' bg='white' p='2rem' overflow='hidden' justify='center' align='center' rounded='lg' 
+                            width='300px'
+                            height='480px'
+                            mx='auto'
+                            // mx={{ sm: '5rem', md: '1rem' }} 
+                            flexDir='column' shadow='lg' >
                                 <Text> {cate404[category]} 📺 </Text>
                                 <Text> Add show </Text>
                                 <IconButton onClick={onOpen} aria-label="add show" icon="small-add" variant='ghost' variantColor={cateColors[category]} />
