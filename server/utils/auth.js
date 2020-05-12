@@ -28,6 +28,8 @@ module.exports = {
       return res.status(400).json({ message: 'invalid token!' });
     }
 
+    //console.log(req.body);
+
     // send to next endpoint
     next();
   },

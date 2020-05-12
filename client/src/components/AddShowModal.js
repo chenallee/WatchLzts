@@ -98,7 +98,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
             formatSeason(season, showToSave.watchStatus)
                 .then((formattedSeason) => {
                     console.log(formattedSeason);
-                    showToSave.episodes.push(formattedSeason);
+                    showToSave.episodes.push({... formattedSeason});
                 })
                 .catch((err) => console.log(err));
         })
