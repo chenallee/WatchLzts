@@ -23,8 +23,7 @@ function Watchlists() {
     return (
         <Flex p='1rem' rounded='lg'  flexDir='column' justify='center' align='start' mx='auto' width={{ base: '100%', md: '80%' }}>
             <Heading as='h2' fontWeight='extrabold' marginBottom='1rem' align='start' color=''>📺 {userData.username}'s Watchlzts</Heading>
-            <Flex width='100%'>
-        {userData.savedShows.length ? (
+            <Flex width='100%' flexDir='column'>
             <>
             <Accordion width='100%' defaultIndex={1}>
 
@@ -41,9 +40,9 @@ function Watchlists() {
                 </AccordionItem>
             </Accordion>
             </>
-            ) : (
-                <Text> You haven't saved any shows yet! </Text>
-            )}
+            
+                
+           
             </Flex>
         </Flex>
 

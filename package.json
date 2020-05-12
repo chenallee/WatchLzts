@@ -25,6 +25,7 @@
     "@chakra-ui/core": "^0.7.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "aws-sdk": "^2.673.0",
     "bcrypt": "^4.0.1",
     "emotion-theming": "^10.0.27",
     "if-env": "^1.0.4",

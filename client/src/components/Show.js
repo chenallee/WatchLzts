@@ -19,18 +19,18 @@ function Show({ show, cateColor }) {
         return { __html: show.summary };
     }
 
-    function getEpis(){
-        getEpisodes(show.tvMazeId)
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((err) => console.log(err));
-    }
+    // function getEpis(){
+    //     getEpisodes(show.tvMazeId)
+    //     .then((data) => {
+    //         console.log(data);
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
 
     return (
         
-        <Flex bg='white' overflow='hidden' key={show.tvMazeId} align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg'>
-            <Image onClick={getEpis} cursor='pointer' overflow='hidden' width='100%' src={show.image} alt={`${show.title} cover`} />
+        <Flex bg='white' overflow='hidden' align='center' rounded='lg' mx={{ sm: '5rem', md: '1rem' }} flexDir='column' shadow='lg'>
+            <Image cursor='pointer' overflow='hidden' width='100%' src={show.image} alt={`${show.title} cover`} />
             <Flex flexDir='column' p='1rem' minWidth='100%'>
                 <PseudoBox onClick={handleToggle} cursor='pointer' display='flex' flexDir='row' alignItems='center' justifyContent='flex-start'>
                     <Heading as='h4' size='lg'> {show.title} </Heading> <Icon marginLeft='.5rem' name="info" /> 
@@ -41,7 +41,7 @@ function Show({ show, cateColor }) {
                     backgroundColor={`${cateColor}.500`}
                     border={`${cateColor}.500`}
                     color='white'
-                    value={show.watchStatus}
+                    //value={show.watchStatus}
                 // onChange -> update show
                 >
                     <option value="to watch">to watch</option>
@@ -56,7 +56,8 @@ function Show({ show, cateColor }) {
                     <SimpleGrid marginTop='1rem' columns='2' spacingX={10} spacingY={5}>
                         {show.episodes.map((season) => {
                             return (
-                                <Text as='sub' letterSpacing='3px' textDecoration={season.watchedEpis === season.seasonEpis ? 'line-through' : 'none' }>
+                                // this can be season.id once we replace hard coded show
+                                <Text key={season.seasonName} as='sub' letterSpacing='3px' textDecoration={season.watchedEpis === season.seasonEpis ? 'line-through' : 'none' }>
                                     S{season.seasonName} - {season.watchedEpis}/{season.seasonEpis} 
                                     {/* {season.watchedEpis === season.seasonEpis ? (<></>) : (<IconButton variantColor="green" aria-label="Search database" icon="small-add" />) } */}
                                     

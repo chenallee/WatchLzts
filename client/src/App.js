@@ -63,7 +63,7 @@ function App() {
       <Switch>
         <Route exact path='/' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
         <Route exact path='/explore' component={Explore}/>
-        <Route exact path='/watchlzts' component={Watchlists}/>
+  <Route exact path='/watchlzts' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
         <Route render={() => <h1> This is not the page you're looking for... </h1>} />
       </Switch>
       </UserInfoContext.Provider>
