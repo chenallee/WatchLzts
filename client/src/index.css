@@ -5,7 +5,25 @@
   
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 
 body {
   margin: 0;
@@ -15,9 +33,9 @@ body {
     font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('./utils/dot-grid.png');
+  /* background: url('./utils/dot-grid.png'); */
   /* background: url(https://live.staticflickr.com/4583/37647876375_41366fc17d_b.jpg); */
-  color: #424949;
+  /* //color: #424949; */
 }
 h1, h2, h3, h4, h5, h6{
   font-family: 'Balsamiq Sans', cursive;

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, Stack, IconButton, SimpleGrid, Flex, Heading, Text, Box, Image, AspectRatioBox, Select, Button } from "@chakra-ui/core";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, Stack, IconButton, SimpleGrid, Flex, Heading, Text, Box, Image, AspectRatioBox, Select, Button, useColorMode } from "@chakra-ui/core";
 
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
@@ -13,6 +13,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
     const [searchInput, setSearchInput] = useState('');
 
     const userData = useContext(UserInfoContext);
+    const { colorMode, toggleColorMode } = useColorMode();
 
     function returnSummary(summary) {
         return { __html: summary };
@@ -97,16 +98,16 @@ function AddShowModal({ defaultCategory, cateColor }) {
     async function populateSeasons(showToSave, seasonData) {
         // using for loop bc for each doesn't wait for completion at each index
         for (let i = 0; i < seasonData.length; i++) {
-          try {
-            const formattedSeason = await formatSeason(seasonData[i], showToSave.watchStatus);
-            showToSave.episodes.push(formattedSeason);
-          } catch (err) {
-            console.log(err);
-          }
+            try {
+                const formattedSeason = await formatSeason(seasonData[i], showToSave.watchStatus);
+                showToSave.episodes.push(formattedSeason);
+            } catch (err) {
+                console.log(err);
+            }
         }
         console.log(showToSave);
         return showToSave;
-      }
+    }
 
     async function handleSaveShow(showId) {
 
@@ -136,22 +137,23 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
     return (
         <>
-            <ModalHeader >
+            <ModalHeader bgColor='black'>
                 <Heading as='h6'>Search for a Show to Add!</Heading>
                 <form onSubmit={handleFormSubmit}>
                     <Stack display='flex' flexDir='row'>
 
                         <Input placeholder='Search by show name...' name='searchInput'
                             value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)} />
+                            onChange={(e) => setSearchInput(e.target.value)}
+                        />
 
-                        <IconButton type='submit' variantColor="blue" aria-label="search for show" icon="search" />
+                        <IconButton type='submit' variantColor='orangered' aria-label="search for show" icon="search" />
                     </Stack>
                 </form>
                 <ModalCloseButton />
             </ModalHeader>
             <ModalBody>
-                <SimpleGrid columns={{ sm: '1', xl: '2' }} spacing='1rem'>
+                <SimpleGrid columns={{ sm: '1', xl: '2' }} spacing='1.5rem'>
                     {searchInput || searchedShows ? (
                         <>
 
@@ -167,9 +169,10 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
                                             <Select
                                                 disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}
-                                                backgroundColor={`${cateColor}.500`}
-                                                border={`${cateColor}.500`}
-                                                color='white'
+                                                backgroundColor={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
+
+                                                border={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
+                                                color={colorMode === 'dark' ? `black` : `white`}
                                                 defaultValue={show.watchStatus}
                                                 onChange={(e) => stageWatchStatus(e.target.value, show.tvMazeId)}
                                             >
@@ -177,7 +180,8 @@ function AddShowModal({ defaultCategory, cateColor }) {
                                                 <option value="watching">watching</option>
                                                 <option value="completed">completed</option>
                                             </Select>
-                                            <Button leftIcon="add" variantColor="teal" variant="outline"
+                                            <Button leftIcon="add" variantColor="queenblue"
+                                                variant='outline'
                                                 onClick={() => handleSaveShow(show.tvMazeId)}
                                                 disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}>
                                                 {userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)
@@ -187,7 +191,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
 
                                         </Flex>
-                                        <Box justifyContent='center' >
+                                        <Box justifyContent='center' paddingLeft={{ md: '1rem' }} paddingTop={{ sm: '1rem', md: '0' }}>
                                             <Text margin='auto' dangerouslySetInnerHTML={returnSummary(show.summary)}></Text>
                                         </Box>
                                     </Box>

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { useUpdateEffect } from 'react-use';
 
-import { Box, Grid, Image, Flex, Heading, Text, Select, Collapse, IconButton, PseudoBox, SimpleGrid, Icon, Divider, Editable, EditableInput, EditablePreview, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, ControlBox, VisuallyHidden, Checkbox } from "@chakra-ui/core";
+import { Box, Grid, Image, Flex, Heading, Text, Select, Collapse, IconButton, PseudoBox, SimpleGrid, Icon, Divider, Editable, EditableInput, EditablePreview, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, ControlBox, VisuallyHidden, Checkbox, useColorMode } from "@chakra-ui/core";
 
 // import context for global state
 import UserInfoContext from '../utils/UserInfoContext';
@@ -20,7 +20,7 @@ function Show({ show, cateColor }) {
     const [watchStatus, setWatchStatus] = useState(show.watchStatus);
     const [episodeState, setEpisodeState] = useState(show.episodes);
 
-
+    const { colorMode, toggleColorMode } = useColorMode();
     const userData = useContext(UserInfoContext);
 
     // checking for watchStatus updates
@@ -278,23 +278,24 @@ function Show({ show, cateColor }) {
 
             <PseudoBox className='flipper'>
 
-                <Flex bg='white' overflow='hidden' align='center' rounded='lg'
+                <Flex bg={colorMode === 'dark' ? 'black' : 'white'} overflow='hidden' align='center' rounded='lg'
 
                     flexDir='column' shadow='lg' className='front'  >
 
                     <PseudoBox overflow='hidden'>
                         <Image cursor='pointer' onClick={handleFlip} width='100%' src={show.image} alt={`${show.title} cover`} />
                     </PseudoBox>
-                    <Flex flexDir='column' p='1rem' minWidth='100%'>
-                        <PseudoBox onClick={handleFlip} cursor='pointer' display='flex' flexDir='row' alignItems='center' justifyContent='flex-start'>
+                    <Flex flexDir='column' p='0 1rem 1rem 1rem' minWidth='100%'>
+                        <PseudoBox onClick={handleFlip} cursor='pointer' display='flex' flexDir='row' alignItems='center' justifyContent='flex-start' marginY='.5rem'>
                             <Heading as='h4' size='lg'> {show.title} </Heading> <Icon marginLeft='.5rem' name="info" />
 
                         </PseudoBox>
 
                         <Select
-                            backgroundColor={`${cateColor}.400`}
-                            border={`${cateColor}.400`}
-                            color='white'
+                            backgroundColor={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
+                            
+                            border={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
+                            color={colorMode === 'dark' ? `black` : `white`}
                             value={watchStatus}
                             onChange={(e) => setWatchStatus(e.target.value)}
                         >
@@ -308,7 +309,7 @@ function Show({ show, cateColor }) {
                     </Flex>
                 </Flex>
 
-                <Flex bg='white' overflow='hidden' align='center' rounded='lg'
+                <Flex bg={colorMode === 'dark' ? 'black' : 'white'} overflow='hidden' align='center' rounded='lg'
                     flexDir='column' shadow='lg' className='back' >
                     <Flex width='100%' justifyContent='space-between' height='10%'>
                         <IconButton size='lg' variant='ghost' variantColor='tartorange' aria-label="delete show" icon="delete"
@@ -340,10 +341,12 @@ function Show({ show, cateColor }) {
                                                 textAlign='right'
                                                 paddingRight='.5rem'
                                                 variant={season.watchedEpis === season.seasonEpis ? 'filled' : 'flushed'}
+                                                // colorVariant={colorMode === 'dark' ? 'white' : 'light'}
                                                 onBlur={(e) => handleUpdateEpiInput(season, e.target.value)}
                                             />
                                             <InputRightAddon children={`/ ${season.seasonEpis}`}
-                                                bg={`${cateColor}.100`}
+                                                color={colorMode === 'dark' ? `black` : `light`}
+                                                bg={colorMode === 'light' ? `${cateColor}.100` : `${cateColor}.100`}
                                                 border='none'
                                                 rounded='md' />
                                         </InputGroup>
