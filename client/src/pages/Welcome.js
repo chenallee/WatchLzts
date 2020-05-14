@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { Flex, Heading, Text, Button } from "@chakra-ui/core";
+import { Flex, Heading, Text, Button, useColorMode } from "@chakra-ui/core";
 
 function Welcome(){
-
+    const { colorMode, toggleColorMode } = useColorMode();
 
     return(
         <>
