@@ -56,7 +56,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
     async function formatEpis(season) {
         if (!season.episodeOrder) {
             let episodesRes = await getEpisodes(season.id);
-            console.log(episodesRes.data);
+            //console.log(episodesRes.data);
             let seasonEpis = (episodesRes.data).length;
             return seasonEpis;
         } else {
@@ -66,6 +66,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
     }
 
     async function formatSeason(season, status) {
+        console.log(status);
         let formattedSeason = {
             id: season.id,
             seasonName: season.number,
@@ -84,6 +85,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
         if (status === 'watching' && formattedSeason.seasonName === 1) {
             formattedSeason.watchedEpis = 1;
         }
+        console.log(formattedSeason);
 
         //if after we retrieve episodes from tvmaze, and it's still false... the season may not have aired/smthng else ... for now let's just not save that season. later on, potential to let user input manually
         if (!formattedSeason.seasonEpis) {
@@ -93,25 +95,24 @@ function AddShowModal({ defaultCategory, cateColor }) {
     }
 
     async function populateSeasons(showToSave, seasonData) {
-        seasonData.forEach((season) => {
-
-            formatSeason(season, showToSave.watchStatus)
-                .then((formattedSeason) => {
-                    console.log(formattedSeason);
-                    showToSave.episodes.push({... formattedSeason});
-                })
-                .catch((err) => console.log(err));
-        })
+        // using for loop bc for each doesn't wait for completion at each index
+        for (let i = 0; i < seasonData.length; i++) {
+          try {
+            const formattedSeason = await formatSeason(seasonData[i], showToSave.watchStatus);
+            showToSave.episodes.push(formattedSeason);
+          } catch (err) {
+            console.log(err);
+          }
+        }
         console.log(showToSave);
         return showToSave;
-    }
-
+      }
 
     async function handleSaveShow(showId) {
 
         let showToFormat = searchedShows.find((show) => show.tvMazeId == showId);
         //searchedShows.splice(showToSave);
-        console.log(searchedShows);
+        //console.log(searchedShows);
 
         // get token
         const token = AuthService.loggedIn() ? AuthService.getToken() : null;
@@ -125,7 +126,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
         let { data: seasonData } = await getSeasons(showId);
         let showToSave = await populateSeasons(showToFormat, seasonData)
         // .then(() => console.log(showToSave))
-        console.log(showToSave);
+        //console.log(showToSave);
 
 
         saveShow(showToSave, token)

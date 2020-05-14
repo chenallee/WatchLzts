@@ -25,17 +25,17 @@ function Watchlists() {
             <Heading as='h2' fontWeight='extrabold' marginBottom='1rem' align='start' color=''>📺 {userData.username}'s Watchlzts</Heading>
             <Flex width='100%' flexDir='column'>
             <>
-            <Accordion width='100%' defaultIndex={1}>
+            <Accordion width='100%' defaultIndex={1} allowToggle > 
 
-                <AccordionItem>
+                <AccordionItem border='none'>
                     <WatchCategory category='to watch' />
                 </AccordionItem>
 
-                <AccordionItem>
+                <AccordionItem border='none'>
                     <WatchCategory category='watching' />
                 </AccordionItem>
                 
-                <AccordionItem>
+                <AccordionItem border='none'>
                     <WatchCategory category='completed' />
                 </AccordionItem>
             </Accordion>
