@@ -54,27 +54,24 @@ function WatchCategory({ category }) {
             _hover={{ bg: colorMode === 'dark' ? `${cateColors[category]}.50` : `${cateColors[category]}.100`}}
             >
                 <Box textAlign="left" 
-                // bg={cateColors[category]}
+                
                 >
                     {category}  ({categoryShows.length})
                 </Box>
                 <AccordionIcon />
             </AccordionHeader>
             <AccordionPanel pb={4} 
-            maxHeight='600px'
+            maxHeight='70vh'
             overflowY='scroll'
-            // bgImage=' url(https://live.staticflickr.com/4583/37647876375_41366fc17d_b.jpg);'
             >
                 <Flex marginBottom='1rem' flexDir='column' alignItems='center'>
                     {categoryShows.length ? (<></>) : (<Text>{cate404[category]} 📺</Text>)}
                 <Button size='lg' onClick={onOpen} leftIcon="small-add" variant='ghost' variantColor={cateColors[category]}> Add Show... </Button>
                 </Flex>
                 <SimpleGrid 
-                // columns={{ sm: 1, md: 2, lg: 3 }} 
+                //columns={{sm: '1', }}
                 spacing='1rem' minChildWidth='300px'>
-                    {/* {categoryShows.length ?
-                        ( */}
-                        
+
                             {categoryShows.map((show) => {
                                     return (
                                         <Show key={show.tvMazeId} show={show} cateColor={cateColors[category]} />

@@ -49,7 +49,10 @@ function App() {
       <Router>
       <>
       <UserInfoContext.Provider value={userInfo}>
-        <PseudoBox bgImage={colorMode === 'light' ? `url('./assets/memphis-mini.png')` : `url('./assets/memphis-mini-dark.png')`} height='100vh' backgroundRepeat='repeat' backgroundAttachment='fixed'>
+        <PseudoBox bgImage={colorMode === 'light' ? `url('./assets/memphis-mini.png')` : `url('./assets/memphis-mini-dark.png')`} 
+        minHeight= '100vh' 
+        // bgSize='100vh 100vw' 
+        backgroundRepeat='repeat' >
       <Navbar />
       <Switch>
         <Route exact path='/' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
