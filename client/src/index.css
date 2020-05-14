@@ -36,6 +36,10 @@ body {
   /* background: url('./utils/dot-grid.png'); */
   /* background: url(https://live.staticflickr.com/4583/37647876375_41366fc17d_b.jpg); */
   /* //color: #424949; */
+  height: 100vh;
+}
+#root{
+  height: 100vh;
 }
 h1, h2, h3, h4, h5, h6{
   font-family: 'Balsamiq Sans', cursive;
@@ -66,8 +70,8 @@ h2 {
 	}
 
 .flip-container, .front, .back {
-	width: 300px;
-	height: 500px;
+	width: 245px;
+	height: 350px;
 }
 
 /* flip speed goes here */
@@ -100,7 +104,12 @@ h2 {
 }
 
 
-
+@media only screen and (min-width: 698px){
+  .flip-container, .front, .back {
+    width: 300px;
+    height: 500px;
+  }
+}
 
 .tvStatic:after {
   overflow: hidden;
