@@ -5,7 +5,7 @@ import { FiLogIn, FiLogOut, FiList } from 'react-icons/fi'
 import {
     Flex, Box, Button, IconButton,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
-    Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure
+    Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorMode
 } from "@chakra-ui/core";
 
 import SignUpForm from './SignupForm';
@@ -17,6 +17,7 @@ import AuthService from '../utils/auth';
 
 function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     const { username } = useContext(UserInfoContext);
 
@@ -24,7 +25,7 @@ function Navbar() {
         <>
             {/* NAVBAR */}
             <Flex as='nav' p='.5rem'  justify='flex-end' className=''>
-                <IconButton variant='ghost' variantColor='yelloworange' icon='moon' />
+                <IconButton variant='ghost' variantColor='yelloworange' icon={colorMode === 'dark'? 'sun' : 'moon'} onClick={toggleColorMode} />
                 {username ? (
                     <>
                         <Button as={Link} to='/watchlzts' variant='ghost' variantColor='junglegreen' aria-label="Search database" leftIcon={FiList}> my lzts </Button>
