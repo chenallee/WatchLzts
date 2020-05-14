@@ -170,7 +170,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
                                                 backgroundColor={`${cateColor}.500`}
                                                 border={`${cateColor}.500`}
                                                 color='white'
-                                                value={show.watchStatus}
+                                                defaultValue={show.watchStatus}
                                                 onChange={(e) => stageWatchStatus(e.target.value, show.tvMazeId)}
                                             >
                                                 <option value="to watch">to watch</option>
