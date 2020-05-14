@@ -35,14 +35,14 @@ export const updateShow = function (id, token, showData){
 }
 
 export const searchTvMaze = function (query) {
-  return axios.get('http://api.tvmaze.com/search/shows?q=', { params: { q: query } });
+  return axios.get('https://api.tvmaze.com/search/shows?q=', { params: { q: query } });
 }
 
 export const getSeasons = function (id) {
-  return axios.get(`http://api.tvmaze.com/shows/${id}/seasons`);
+  return axios.get(`https://api.tvmaze.com/shows/${id}/seasons`);
 
 }
 
 export const getEpisodes = function (id) {
-  return axios.get(`http://api.tvmaze.com/seasons/${id}/episodes`);
+  return axios.get(`https://api.tvmaze.com/seasons/${id}/episodes`);
 }
