@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 
 
-import { CSSReset, ThemeProvider, theme, ColorModeProvider, PseudoBox } from "@chakra-ui/core";
+import { CSSReset, ThemeProvider, theme, ColorModeProvider} from "@chakra-ui/core";
 
 import customColors from './utils/colors';
 
@@ -13,7 +13,12 @@ const customTheme = {
   colors: {
     ...theme.colors,
     ...customColors,
-  }
+  },
+  fonts: {
+    body: 'Open Sans, sans-serif',
+    heading: 'Ubuntu, sans-serif',
+    mono: 'Fugaz One, cursive',
+  },
 };
 
 ReactDOM.render(

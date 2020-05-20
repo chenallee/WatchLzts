@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import {
-    Input, Stack, Icon, InputGroup, InputLeftAddon, InputLeftElement, FormControl, Button, FormHelperText, FormLabel,
+    Input, Stack, FormControl, Button, FormHelperText, FormLabel,
     Alert,
     AlertIcon,
     AlertDescription,
@@ -12,7 +12,7 @@ import UserInfoContext from '../utils/UserInfoContext';
 import { loginUser } from '../utils/API';
 import AuthService from '../utils/auth';
 
-function LoginForm({ onClose }) {
+function LoginForm() {
     const [userFormData, setUserFormData] = useState({ username: '', password: '' });
 
     const [showAlert, setShowAlert] = useState(false);
@@ -31,10 +31,10 @@ function LoginForm({ onClose }) {
 
         loginUser(userFormData)
             .then(({ data }) => {
-                console.log(data);
+               // console.log(data);
                 AuthService.login(data.token);
                 userData.getUserData();
-                onClose();
+                //onClose();
             })
             .catch((err) => {
                 console.log(err.response);
@@ -64,7 +64,7 @@ function LoginForm({ onClose }) {
                     <Input name='password' type='password' placeholder='Password' aria-label='password' onChange={handleInputChange} value={userFormData.password} />
                 </FormControl>
 
-                <Button type='submit'>Log in</Button>
+                <Button type='submit' rounded='lg'  backgroundImage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)'>Log in</Button>
                 <FormHelperText textAlign='center'>Welcome back! <span role='img' aria-label='waving emoji'>👋 </span> </FormHelperText>
             </Stack>
 

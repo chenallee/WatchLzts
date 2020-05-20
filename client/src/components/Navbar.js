@@ -1,22 +1,23 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
 
-import { FiLogIn, FiLogOut, FiList } from 'react-icons/fi'
+
+import {FiLogOut,} from 'react-icons/fi'
 import {
-    Flex, Box, Button, IconButton,
-    Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
-    Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorMode
+    Flex, Button, IconButton,
+    useColorMode,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+
 } from "@chakra-ui/core";
 
-import SignUpForm from './SignupForm';
-import LogInForm from './LoginForm';
 
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
 
 
 function Navbar() {
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
 
     const { username } = useContext(UserInfoContext);
@@ -24,44 +25,38 @@ function Navbar() {
     return (
         <>
             {/* NAVBAR */}
-            <Flex as='nav' p='.5rem'  justify='flex-end' className=''>
-                <IconButton variant='ghost' variantColor='yelloworange' icon={colorMode === 'dark'? 'sun' : 'moon'} onClick={toggleColorMode} />
+            <Flex as='nav' p='.5rem' justify='flex-end' pos='fixed' width='100%' zIndex={2} 
+            // bg={colorMode === 'dark' ? 'rgba(36, 36, 35, 1)'  : 'rgba(255, 255, 255, 1)' }
+            // bgImage='rgba(147,37,254,0.6)'
+            >
                 {username ? (
                     <>
-                        <Button as={Link} to='/watchlzts' variant='ghost' variantColor='junglegreen' aria-label="Search database" leftIcon={FiList}> my lzts </Button>
-                        <Button onClick={AuthService.logout} variant='ghost' variantColor='queenblue' aria-label="Search database" leftIcon={FiLogOut}> log out</Button>
+
+                        <Menu closeOnSelect={true} 
+                        
+                        >
+                            <MenuButton as={IconButton} icon='settings' variant='ghost'>
+                            </MenuButton>
+                            <MenuList width='5rem' 
+                            border='none'
+                            bg={colorMode === 'dark' ? '#242423' : 'white'}
+                            >
+                                
+                                    <Button as={MenuItem} variant='ghost' variantColor='yelloworange' leftIcon={colorMode === 'dark' ? 'sun' : 'moon'} onClick={toggleColorMode}> theme </Button>
+                            
+                                    <Button as={MenuItem} onClick={AuthService.logout} variant='ghost' variantColor='queenblue' aria-label="Search database" leftIcon={FiLogOut}> log out</Button>
+                               
+                            </MenuList>
+                        </Menu>
 
                     </>
                 ) : (
-                        <Button onClick={onOpen} variant='ghost' variantColor='queenblue' aria-label="Search database" leftIcon={FiLogIn}> log in</Button>
+                        <IconButton variant='ghost' variantColor='yelloworange' icon={colorMode === 'dark' ? 'sun' : 'moon'} onClick={toggleColorMode} />
+                        // <Button onClick={onOpen} variant='ghost' variantColor='queenblue' aria-label="Search database" leftIcon={FiLogIn}> log in</Button>
                     )}
 
             </Flex>
-            {/* MODAL - let's make this its own component and pass in defaultIndex */}
-            <Modal isOpen={isOpen} onClose={onClose} size='xl'>
-                <ModalOverlay />
-                {/* tab will show either login or sign up form ... since here we access from login that will be the default */}
-                <ModalContent rounded='lg'>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Tabs defaultIndex={0}>
-                            <TabList>
-                                <Tab>Log In</Tab>
-                                <Tab>Sign up</Tab>
-                            </TabList>
-                            <TabPanels>
-                                <TabPanel>
-                                    <LogInForm onClose={onClose} />
-                                </TabPanel>
-                                <TabPanel>
-                                    <SignUpForm onClose={onClose} />
-                                </TabPanel>
-                            </TabPanels>
 
-                        </Tabs>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
 
 
         </>

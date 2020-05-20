@@ -1,26 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useUpdateEffect } from 'react-use';
 
-import { Box, Grid, Image, Flex, Heading, Text, Select, Collapse, IconButton, PseudoBox, SimpleGrid, Icon, Divider, Editable, EditableInput, EditablePreview, Input, InputGroup, InputLeftAddon, InputRightAddon, Stack, ControlBox, VisuallyHidden, Checkbox, useColorMode } from "@chakra-ui/core";
+import { Box, Image, Flex, Heading, Text, Select, IconButton, PseudoBox,  Icon, Input, InputGroup, InputRightAddon, Stack,  Checkbox, useColorMode } from "@chakra-ui/core";
 
 // import context for global state
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
 
-import * as API from '../utils/API';
 
 import { deleteShow, updateShow, getShow } from '../utils/API';
 
-function Show({ show, cateColor }) {
-    // const [showMore, setShowMore] = useState(false);
-    // const handleToggle = () => setShowMore(!showMore);
+function Show({ show }) {
+
+    const layer1Color = {
+        'dark': '#242423',
+        'light': 'white',
+    }
     const [flipCard, setFlipCard] = useState(false);
     const handleFlip = () => setFlipCard(!flipCard);
     const [watchStatus, setWatchStatus] = useState(show.watchStatus);
     const [episodeState, setEpisodeState] = useState(show.episodes);
 
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
     const userData = useContext(UserInfoContext);
 
     // checking for watchStatus updates
@@ -33,7 +35,7 @@ function Show({ show, cateColor }) {
         // if watchStatus is set to 'watching' -> we don't care what episode state is -> call endpoint here
 
         if (watchStatus === showStatus || watchStatus === 'watching') {
-            console.log('call endpoint here');
+            //console.log('call endpoint here');
             //get show obj & replace with states
             //send new showObj to endpoint
             handleUpdateShow();
@@ -42,7 +44,7 @@ function Show({ show, cateColor }) {
 
         // if watchStatus is set to 'to watch' && if episodeState NOT all 0 -> exit here and update episodeState 
         if (watchStatus === 'to watch') {
-            console.log('set eps to 0');
+           // console.log('set eps to 0');
             //for each season -> update 
             handleUpdateAll('0');
             return;
@@ -50,7 +52,7 @@ function Show({ show, cateColor }) {
 
         // if watchStatus is set to 'completed' && if episodeState NOT all complete ->  exit here and update episodeState
         if (watchStatus === 'completed') {
-            console.log('set eps to season eps');
+           // console.log('set eps to season eps');
             handleUpdateAll('completed');
             return;
         }
@@ -58,12 +60,12 @@ function Show({ show, cateColor }) {
     }, [watchStatus])
     //checking for episodeState updates
     useUpdateEffect(() => {
-        console.log(watchStatus);
-        console.log(episodeState);
+      //  console.log(watchStatus);
+      //  console.log(episodeState);
 
         //check if we need to update epis too
         const showStatus = checkSeasonStatus();
-        console.log(showStatus);
+     //   console.log(showStatus);
 
         // if episode state is set so all 0 & watchStatus = to watch
         // -> just send states to DB
@@ -72,7 +74,7 @@ function Show({ show, cateColor }) {
         // -> just send states to DB
         // call endpoint here
         if (watchStatus === showStatus) {
-            console.log('call endpoint here');
+          //  console.log('call endpoint here');
             //get show obj & replace with states
             //send new showObj to endpoint
             handleUpdateShow();
@@ -114,7 +116,7 @@ function Show({ show, cateColor }) {
         let showToUpdate = await handleRetrieveShow();
         showToUpdate.watchStatus = watchStatus;
         showToUpdate.episodes = episodeState;
-        console.log(showToUpdate);
+       // console.log(showToUpdate);
 
         // get token
         const token = AuthService.loggedIn() ? AuthService.getToken() : null;
@@ -131,7 +133,7 @@ function Show({ show, cateColor }) {
         let watchedCount = 0;
         let unwatchedCount = 0;
         episodeState.forEach((season) => {
-            console.log(season);
+           // console.log(season);
             if (season.watchedEpis === 0) {
                 unwatchedCount++;
             }
@@ -139,8 +141,8 @@ function Show({ show, cateColor }) {
                 watchedCount++;
             }
         })
-        console.log(`watched ${watchedCount} / ${episodeState.length}`)
-        console.log(`unwatched ${unwatchedCount} / ${episodeState.length}`)
+        //console.log(`watched ${watchedCount} / ${episodeState.length}`)
+       // console.log(`unwatched ${unwatchedCount} / ${episodeState.length}`)
         if (watchedCount === episodeState.length) {
             return 'completed';
         }
@@ -269,18 +271,24 @@ function Show({ show, cateColor }) {
 
     }
 
-    function returnSummary() {
-        return { __html: show.summary };
-    }
+    // function returnSummary() {
+    //     return { __html: show.summary };
+    // }
 
     return (
-        <PseudoBox className={flipCard ? 'flip-container flip' : 'flip-container'} mx='auto'>
+        <PseudoBox className={flipCard ? 'flip-container flip' : 'flip-container'} mx='auto'
+        
+        >
 
             <PseudoBox className='flipper'>
 
-                <Flex bg={colorMode === 'dark' ? 'black' : 'white'} overflow='hidden' align='center' rounded='lg'
+                <Flex 
+                 bg={layer1Color[colorMode]} 
+                overflow='hidden' align='center' rounded='lg'
 
-                    flexDir='column' shadow='lg' className='front'  >
+                    flexDir='column' className='front' 
+                    boxShadow='5px 5px 5px rgba(0, 0, 0, 0.2)' 
+                    >
 
                     <PseudoBox overflow='hidden'>
                         <Image cursor='pointer' onClick={handleFlip} width='100%' src={show.image} alt={`${show.title} cover`} />
@@ -292,16 +300,16 @@ function Show({ show, cateColor }) {
                         </PseudoBox>
 
                         <Select
-                            backgroundColor={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
-                            
-                            border={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
+                            backgroundColor={colorMode === 'dark' ? `orchid.200` : `orchid.400`}
+                            backgroundImage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)'
+                            border={colorMode === 'dark' ? `orchid.200` : `orchid.400`}
                             color={colorMode === 'dark' ? `black` : `white`}
                             value={watchStatus}
                             onChange={(e) => setWatchStatus(e.target.value)}
                         >
-                            <option value="to watch">to watch</option>
-                            <option value="watching">watching</option>
-                            <option value="completed">completed</option>
+                            <option bgimage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)' value="to watch">to watch</option>
+                            <option bgimage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)' value="watching">watching</option>
+                            <option bgimage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)' value="completed">completed</option>
                         </Select>
 
 
@@ -309,8 +317,13 @@ function Show({ show, cateColor }) {
                     </Flex>
                 </Flex>
 
-                <Flex bg={colorMode === 'dark' ? 'black' : 'white'} overflow='hidden' align='center' rounded='lg'
-                    flexDir='column' shadow='lg' className='back' >
+                <Flex 
+                bg={layer1Color[colorMode]} 
+                bgImage={colorMode === 'dark' ?  'linear-gradient(243deg, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%)' : 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(147,37,254,0.05) 100%);' }
+               
+                overflow='hidden' align='center' rounded='lg'
+                    flexDir='column' className='back'
+                    boxShadow='5px 5px 5px rgba(0, 0, 0, 0.1)' >
                     <Flex width='100%' justifyContent='space-between' height='10%'>
                         <IconButton size='lg' variant='ghost' variantColor='tartorange' aria-label="delete show" icon="delete"
                             onClick={() => handleDeleteShow(show.tvMazeId)} />
@@ -345,8 +358,8 @@ function Show({ show, cateColor }) {
                                                 onBlur={(e) => handleUpdateEpiInput(season, e.target.value)}
                                             />
                                             <InputRightAddon children={`/ ${season.seasonEpis}`}
-                                                color={colorMode === 'dark' ? `black` : `light`}
-                                                bg={colorMode === 'light' ? `${cateColor}.100` : `${cateColor}.100`}
+                                                color={colorMode === 'dark' ? `black` : `white`}
+                                                backgroundColor={colorMode === 'dark' ? `orchid.200` : `orchid.400`}
                                                 border='none'
                                                 rounded='md' />
                                         </InputGroup>

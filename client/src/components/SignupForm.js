@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
-import { Input, Stack, Icon, InputGroup, InputLeftAddon, InputLeftElement, FormControl, Button, FormHelperText, FormLabel } from "@chakra-ui/core";
-import { BsFillPersonFill } from 'react-icons/bs'
+import { Input, Stack, FormControl, Button, FormHelperText, FormLabel } from "@chakra-ui/core";
+
 
 import UserInfoContext from '../utils/UserInfoContext';
 import { createUser } from '../utils/API';
@@ -22,7 +22,7 @@ function SignupForm({ onClose }){
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log(userFormData);
+   // console.log(userFormData);
 
     //send new user data to server, receiving the JWT and user data in return
     createUser(userFormData)
@@ -61,8 +61,8 @@ function SignupForm({ onClose }){
             <Input name='password' type='password' placeholder='Password' aria-label='password' onChange={handleInputChange} value={userFormData.password}/>
         </FormControl>
 
-        <Button type='submit'>Sign up</Button>
-        <FormHelperText textAlign='center'>Sign up to start tracking your shows! 📺 </FormHelperText>
+        <Button type='submit'  backgroundImage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)'>Sign up</Button>
+        <FormHelperText textAlign='center'>Sign up to start tracking your shows! <span role='img' aria-label='television emoji'>📺</span>  </FormHelperText>
         </Stack>
 
        

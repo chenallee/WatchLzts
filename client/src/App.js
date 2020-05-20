@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { CSSReset, ThemeProvider, theme, ColorModeProvider, PseudoBox, useColorMode } from "@chakra-ui/core";
+
 
 import Welcome from './pages/Welcome';
-import Explore from './pages/Explore';
+
 import Watchlists from './pages/Watchlists';
 
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 import * as API from './utils/API';
 import AuthService from './utils/auth';
@@ -37,7 +38,7 @@ function App() {
     }
   });
  
-  const { colorMode, toggleColorMode } = useColorMode();
+
     // on load, get user data if a token exists
     useEffect(() => {
       userInfo.getUserData();
@@ -49,18 +50,16 @@ function App() {
       <Router>
       <>
       <UserInfoContext.Provider value={userInfo}>
-        <PseudoBox bgImage={colorMode === 'light' ? `url('./assets/memphis-mini.png')` : `url('./assets/memphis-mini-dark.png')`} 
-        minHeight= '100vh' 
-        // bgSize='100vh 100vw' 
-        backgroundRepeat='repeat' >
+       
       <Navbar />
       <Switch>
         <Route exact path='/' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
-        <Route exact path='/explore' component={Explore}/>
-  <Route exact path='/watchlzts' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
+      
+        <Route exact path='/watchlzts' render={() => (userInfo.username) ? <Watchlists/> : <Welcome/>}/>
         <Route render={() => <h1> This is not the page you're looking for... </h1>} />
       </Switch>
-      </PseudoBox>
+      <Footer />
+      
       </UserInfoContext.Provider>
       </>
     </Router>

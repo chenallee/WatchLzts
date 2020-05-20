@@ -1,26 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import {
-    AccordionItem,
-    AccordionHeader,
-    AccordionPanel,
-    AccordionIcon, Box, SimpleGrid, Text, Flex, IconButton, Button,
-    Modal, ModalOverlay, ModalContent, useDisclosure, ModalCloseButton, ModalBody, useColorMode
+    SimpleGrid, Text, Flex, useColorMode, PseudoBox
 } from "@chakra-ui/core";
+
 
 // import context for global state
 import UserInfoContext from '../utils/UserInfoContext';
 
 import Show from '../components/Show';
-import AddShowModal from '../components/AddShowModal';
+
 
 function WatchCategory({ category }) {
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
     // get whole userData state object from App.js
     const userData = useContext(UserInfoContext);
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
     const [categoryShows, setCategoryShows] = useState([]);
 
     const cateColors = {
@@ -33,62 +28,53 @@ function WatchCategory({ category }) {
         'watching': `You're not watching anything!`,
         'completed': `You haven't completed any shows!`
     }
-    
-    useEffect(() => {
 
+    useEffect(() => {
+       // console.log(category);
         let showArr = [];
         userData.savedShows.forEach((show) => {
-            if(show.watchStatus === category){
+            if (show.watchStatus === category) {
                 showArr.push(show);
             }
         })
         //console.log(showArr)
         setCategoryShows(showArr);
-  
-      }, [userData]);
+
+    }, [userData]);
 
     return (
         <>
-            <AccordionHeader rounded='md' bg={colorMode === 'dark' ? `${cateColors[category]}.100` : `${cateColors[category]}.200`} color={colorMode === 'dark' ? 'black' : ''}
-            _expanded={{ bg: colorMode === 'dark' ? `${cateColors[category]}.200` : `${cateColors[category]}.400`, color: 'white' }}
-            _hover={{ bg: colorMode === 'dark' ? `${cateColors[category]}.50` : `${cateColors[category]}.100`}}
-            >
-                <Box textAlign="left" 
-                
-                >
-                    {category}  ({categoryShows.length})
-                </Box>
-                <AccordionIcon />
-            </AccordionHeader>
-            <AccordionPanel pb={4} 
-            maxHeight='70vh'
-            overflowY='scroll'
-            >
-                <Flex marginBottom='1rem' flexDir='column' alignItems='center'>
-                    {categoryShows.length ? (<></>) : (<Text>{cate404[category]} 📺</Text>)}
-                <Button size='lg' onClick={onOpen} leftIcon="small-add" variant='ghost' variantColor={cateColors[category]}> Add Show... </Button>
-                </Flex>
-                <SimpleGrid 
-                //columns={{sm: '1', }}
-                spacing='1rem' minChildWidth='300px'>
 
-                            {categoryShows.map((show) => {
-                                    return (
-                                        <Show key={show.tvMazeId} show={show} cateColor={cateColors[category]} />
-                                    )
-                 })}
-                           
-                </SimpleGrid>
-            </AccordionPanel>
+            <Flex paddingTop='6rem' textAlign='center' width='300px' margin='0 auto'
 
-            <Modal isOpen={isOpen} scrollBehavior='inside' onClose={onClose} size={{sm: '100%', md:'90%', xl: '80%'}}
-                
             >
-                <ModalOverlay />
-                <ModalContent rounded='lg'  backgroundColor={colorMode === 'dark' ? 'gray.900' : 'white'}>
-                    <AddShowModal defaultCategory={category} cateColor={cateColors[category]} />
-                </ModalContent>
-            </Modal>
+                {categoryShows.length ? (<PseudoBox
+                    fontWeight='bold'
+                    textShadow={colorMode === 'dark' ? '0 0 5px black' : '0 0 5px white'}
+                    fontSize="1.3rem"
+                ><span>👋</span> Hi {userData.username}, you have {categoryShows.length} show{categoryShows.length > 1 ? 's' : ''} marked as <Text textShadow='0px 0px 10px #DB92F6' display='inline'>"{category}"</Text>! </PseudoBox>) : (<Text
+                    textShadow={colorMode === 'dark' ? '0 0 5px black' : '0 0 5px white'} fontSize="1.3rem"
+                >{cate404[category]} <span>📺</span></Text>)}
+
+            </Flex>
+            <SimpleGrid
+                padding='4rem .5rem 1rem 0.5rem'
+
+                spacing='3rem'
+                minChildWidth='300px'
+
+            >
+
+                {categoryShows.map((show) => {
+                    return (
+                        <Show key={show.tvMazeId} show={show} cateColor={cateColors[category]} />
+                    )
+                })}
+
+            </SimpleGrid>
+
+
+
         </>
     );
 }

@@ -1,19 +1,27 @@
 import React, { useState, useContext } from 'react';
 
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Input, FormControl, Stack, IconButton, SimpleGrid, Flex, Heading, Text, Box, Image, AspectRatioBox, Select, Button, useColorMode } from "@chakra-ui/core";
+import { ModalHeader, ModalBody, ModalCloseButton, Input,  Stack, IconButton, SimpleGrid, Flex, Heading, Text, Box, Image, AspectRatioBox, Select, Button, useColorMode } from "@chakra-ui/core";
 
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
 
-import { searchTvMaze, getSeasons, getEpisodes, saveShow, getShow, updateShow } from '../utils/API';
+import { searchTvMaze, getSeasons, getEpisodes, saveShow } from '../utils/API';
 
-function AddShowModal({ defaultCategory, cateColor }) {
+function AddShowModal() {
     const [searchedShows, setSearchedShows] = useState([]);
 
     const [searchInput, setSearchInput] = useState('');
 
     const userData = useContext(UserInfoContext);
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
+    const layer1Color = {
+        'dark': '#242423',
+        'light': '#EFEFF0',
+    }
+    const layer2Color = {
+        'dark': '#333533',
+        'light': 'white',
+    }
 
     function returnSummary(summary) {
         return { __html: summary };
@@ -37,7 +45,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
                     title: show.name,
                     summary: show.summary,
                     image: show.image?.original || `https://via.placeholder.com/680x1000?text=No+Image`,
-                    watchStatus: defaultCategory,
+                    watchStatus: 'to watch',
 
                 }));
                 //showData.episodes.length = 0;
@@ -67,13 +75,13 @@ function AddShowModal({ defaultCategory, cateColor }) {
     }
 
     async function formatSeason(season, status) {
-        console.log(status);
+        //console.log(status);
         let formattedSeason = {
             id: season.id,
             seasonName: season.number,
             seasonEpis: await formatEpis(season)
         }
-        console.log(formattedSeason);
+        //console.log(formattedSeason);
 
         //if episodeOrder: null, 
 
@@ -86,7 +94,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
         if (status === 'watching' && formattedSeason.seasonName === 1) {
             formattedSeason.watchedEpis = 1;
         }
-        console.log(formattedSeason);
+        //console.log(formattedSeason);
 
         //if after we retrieve episodes from tvmaze, and it's still false... the season may not have aired/smthng else ... for now let's just not save that season. later on, potential to let user input manually
         if (!formattedSeason.seasonEpis) {
@@ -105,7 +113,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
                 console.log(err);
             }
         }
-        console.log(showToSave);
+        //console.log(showToSave);
         return showToSave;
     }
 
@@ -137,22 +145,29 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
     return (
         <>
-            <ModalHeader bgColor='black'>
+            <ModalHeader
+                bg={layer1Color[colorMode]}
+                roundedTop='lg'
+            >
                 <Heading as='h6'>Search for a Show to Add!</Heading>
                 <form onSubmit={handleFormSubmit}>
                     <Stack display='flex' flexDir='row'>
 
-                        <Input placeholder='Search by show name...' name='searchInput'
+                        <Input placeholder='Search by show name...' variant="outline" name='searchInput' variantColor='white'
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                         />
 
-                        <IconButton type='submit' variantColor='orangered' aria-label="search for show" icon="search" />
+                        <IconButton type='submit' aria-label="search for show" icon="search" variantColor='orchid' />
                     </Stack>
                 </form>
                 <ModalCloseButton />
             </ModalHeader>
-            <ModalBody>
+            <ModalBody
+                bg={layer1Color[colorMode]}
+                bgImage={colorMode === 'dark' ?  'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,.5) 100%)' : 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(147,37,254,0.05) 100%);' }
+                roundedBottom='lg'
+            >
                 <SimpleGrid columns={{ sm: '1', xl: '2' }} spacing='1.5rem'>
                     {searchInput || searchedShows ? (
                         <>
@@ -160,7 +175,11 @@ function AddShowModal({ defaultCategory, cateColor }) {
                             {searchedShows.map((show) => {
 
                                 return (
-                                    <Box key={show.tvMazeId} p='1rem' display={{ md: 'flex' }} margin='auto' shadow='sm' margin='0' rounded='lg'>
+                                    <Box
+                                        bg={layer2Color[colorMode]}
+                                        key={show.tvMazeId} p='1rem' display={{ md: 'flex' }} margin='auto' shadow='sm' margin='0' rounded='lg'
+                                        boxShadow='5px 5px 5px rgba(0, 0, 0, 0.1)'
+                                        >
                                         <Flex flexDir='column' minWidth={{ sm: '40%', xl: '50%' }}>
                                             <AspectRatioBox ratio={3 / 4} maxWidth={{ xl: '60%', }} margin='0 20%'>
                                                 <Image src={`${show.image}`} alt={`${show.title}`} rounded='lg' />
@@ -169,10 +188,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
                                             <Select
                                                 disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}
-                                                backgroundColor={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
-
-                                                border={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
-                                                color={colorMode === 'dark' ? `black` : `white`}
+                                                backgroundColor={layer1Color[colorMode]}
                                                 defaultValue={show.watchStatus}
                                                 onChange={(e) => stageWatchStatus(e.target.value, show.tvMazeId)}
                                             >
@@ -180,8 +196,12 @@ function AddShowModal({ defaultCategory, cateColor }) {
                                                 <option value="watching">watching</option>
                                                 <option value="completed">completed</option>
                                             </Select>
-                                            <Button leftIcon="add" variantColor="queenblue"
-                                                variant='outline'
+                                            <Button leftIcon={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)
+                                                ? 'check'
+                                                : 'add'}
+                                                
+                                                variantColor='orchid'
+                                                backgroundImage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)'
                                                 onClick={() => handleSaveShow(show.tvMazeId)}
                                                 disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}>
                                                 {userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)
