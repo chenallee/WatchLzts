@@ -4,7 +4,7 @@ A site that allows users to track their watch status for tv shows. If you don't 
 Sometimes you watch shows on different platforms or different accounts. WatchLzts is a way for you to track how far you've gotten in each show!
 
 ## usage
-Check out the live site [here](https://rocky-reaches-00818.herokuapp.com/)!
+Check out the live site [here](https://watchlzts.herokuapp.com/)!
 
 Whichever category you try to add a show from, is what it will be added to by default unless you choose a different selection from the select dropdown.
 
