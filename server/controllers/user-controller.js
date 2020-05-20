@@ -65,8 +65,8 @@ module.exports = {
     },
     //get a show
     async getShow({ user, params }, res) {
-        console.log(user);
-        console.log(params);
+     //   console.log(user);
+     //   console.log(params);
         try {
             const showRes = await User.findOne(
                 { _id: user._id, 'savedShows.tvMazeId': params.id },
@@ -82,7 +82,7 @@ module.exports = {
 
     //update a show 
     async updateShow({ user, body, params }, res) {
-        console.log(user);
+     //   console.log(user);
         try {
             const updatedShow = await User.findOneAndUpdate(
                 {_id: user._id, 'savedShows.tvMazeId': params.id }, //match userid, show.title matches the param

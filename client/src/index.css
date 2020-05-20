@@ -1,7 +1,17 @@
 ::selection{
-  background-color: #43AA8B;
+  background-color: #DB92F6;
   color: white;
 
+  
+}
+
+a {
+  color: #B27BD9;
+}
+
+a:hover{
+  text-decoration: underline;
+  /* filter: invert(1); */
   
 }
 
@@ -24,29 +34,38 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+html{
+  background-image: linear-gradient(45deg, rgba(33,140,246,0.4) 0%, rgba(147,37,254,0.4) 100%);
+  background-size: cover;
+  background-attachment: fixed;
+}
 
 body {
-  margin: 0;
+  
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
-    font-family: 'Open Sans', sans-serif;
+    
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background: url('./utils/dot-grid.png'); */
   /* background: url(https://live.staticflickr.com/4583/37647876375_41366fc17d_b.jpg); */
   /* //color: #424949; */
-  
-background-image: linear-gradient(45deg, rgba(33,140,246,0.4) 0%, rgba(147,37,254,0.4) 100%);
-background-size: stretch;
-background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
 #root{
-  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-h1, h2, h3, h4, h5, h6{
+
+/* h1, h2, h3, h4, h5, h6{
   font-family: 'Balsamiq Sans', cursive;
-}
+} */
 
 /* h1, h2 {
   background: linear-gradient( 50deg, 
@@ -73,8 +92,11 @@ h1, h2, h3, h4, h5, h6{
 	}
 
 .flip-container, .front, .back {
-	width: 245px;
-	height: 350px;
+
+  width: 300px;
+  height: 400px;
+	/* width: 245px;
+	height: 350px; */
 }
 
 /* flip speed goes here */

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import {
-    Input, Stack, Icon, InputGroup, InputLeftAddon, InputLeftElement, FormControl, Button, FormHelperText, FormLabel,
+    Input, Stack, FormControl, Button, FormHelperText, FormLabel,
     Alert,
     AlertIcon,
     AlertDescription,
@@ -31,7 +31,7 @@ function LoginForm() {
 
         loginUser(userFormData)
             .then(({ data }) => {
-                console.log(data);
+               // console.log(data);
                 AuthService.login(data.token);
                 userData.getUserData();
                 //onClose();
@@ -64,7 +64,7 @@ function LoginForm() {
                     <Input name='password' type='password' placeholder='Password' aria-label='password' onChange={handleInputChange} value={userFormData.password} />
                 </FormControl>
 
-                <Button type='submit' rounded='lg'>Log in</Button>
+                <Button type='submit' rounded='lg'  backgroundImage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)'>Log in</Button>
                 <FormHelperText textAlign='center'>Welcome back! <span role='img' aria-label='waving emoji'>👋 </span> </FormHelperText>
             </Stack>
 

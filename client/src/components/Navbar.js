@@ -1,38 +1,23 @@
-import React, { useState, useContext } from 'react';
-import { 
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams}
-     from 'react-router-dom';
+import React, { useContext } from 'react';
 
-import { FiLogIn, FiLogOut, FiList } from 'react-icons/fi'
+
+import {FiLogOut,} from 'react-icons/fi'
 import {
-    Flex, Box, Button, IconButton,
-    Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
-    Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorMode, Icon,
+    Flex, Button, IconButton,
+    useColorMode,
     Menu,
     MenuButton,
     MenuList,
     MenuItem,
-    MenuGroup,
-    MenuDivider,
-    MenuOptionGroup,
-    MenuItemOption,
+
 } from "@chakra-ui/core";
 
-
-import Watchlists from '../pages/Watchlists';
-
-import AddShowModal from '../components/AddShowModal';
 
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
 
 
 function Navbar() {
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
 
     const { username } = useContext(UserInfoContext);
@@ -46,17 +31,6 @@ function Navbar() {
             >
                 {username ? (
                     <>
-                    <Button onClick={onOpen} leftIcon="small-add"  > Add Show... </Button>
-                    <Button as={Link} to='/to-watch'
-                       
-                         variant='ghost'aria-label="Search database" leftIcon={FiList}> to watch </Button>
-                        <Button as={Link} to='/watching'
-                        
-                         variant='ghost'  aria-label="Search database" leftIcon={FiList}> watching </Button>
-                         <Button as={Link} to='/completed'
-                        
-                         variant='ghost' aria-label="Search database" leftIcon={FiList}> completed </Button>
-
 
                         <Menu closeOnSelect={true} 
                         
@@ -82,14 +56,7 @@ function Navbar() {
                     )}
 
             </Flex>
-            {/* MODAL - let's make this its own component and pass in defaultIndex */}
-            <Modal isOpen={isOpen} scrollBehavior='inside' onClose={onClose} size={{sm: '100%', md:'90%', xl: '80%'}} 
-                >
-                    <ModalOverlay />
-                    <ModalContent rounded='lg'  backgroundColor={colorMode === 'dark' ? 'gray.900' : 'white'}>
-                        <AddShowModal/>
-                    </ModalContent>
-                </Modal>
+
 
 
         </>

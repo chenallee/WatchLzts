@@ -1,19 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-import {useHistory, useLocation} from 'react-router-dom';
-import { Flex, Heading, Text, Button, useColorMode, Tabs, Tab, TabList, TabPanel, TabPanels } from "@chakra-ui/core";
+import React from 'react';
+import { Flex, Heading, Text, useColorMode, Tabs, Tab, TabList, TabPanel, TabPanels } from "@chakra-ui/core";
 import SignUpForm from '../components/SignupForm';
 import LogInForm from '../components/LoginForm';
 
 function Welcome() {
-    const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode } = useColorMode();
     const layer1Color = {
         'dark': '#242423',
         'light': 'white',
     }
-
-    let history = useHistory();
-    let location = useLocation();
-  
 
     return (
         <>
@@ -26,25 +21,29 @@ function Welcome() {
                     
                     as='h1'
                     textAlign='center'
-                    textShadow='5px 5px 5px rgba(0, 0, 0, 0.1)'
+                    textShadow={colorMode === 'dark' ? '0 0 5px black' : '0 0 5px white'}
                 ><Text 
-                fontFamily='Baloo Chettan 2'
+                fontFamily='mono'
                 display='inline' color='light'
-                >WatchLzts</Text> <span>📺 </span>
+                >WatchLzts</Text> <span role='img' aria-label='television emoji'>📺 </span>
                 </Heading>
                
-                {/* <Text
+                <Text
                   margin='0 auto'
                   maxWidth='30rem'
-                  textAlign='center'>
+                  textAlign='center'
+                  textShadow={colorMode === 'dark' ? '0 0 5px black' : '0 0 5px white'}
+                  fontWeight='bold'
+                  >
                 Sometimes you watch shows on different platforms or different accounts. WatchLzts helps you record how far you've gotten in each show! 
-                </Text> */}
+                </Text>
                
                 
-                <Flex margin='3rem auto' 
+                <Flex margin='2rem auto' 
                 bg={layer1Color[colorMode]} 
+                bgImage={colorMode === 'dark' ?  'linear-gradient(243deg, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%)' : 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(147,37,254,0.05) 100%);' }
                 padding='1rem' rounded='lg' boxShadow='5px 5px 5px rgba(0, 0, 0, 0.1)'>
-                <Tabs isFitted variant='soft-rounded'>
+                <Tabs isFitted variant='soft-rounded' variantColor='orchid'>
                     <TabList>
                         <Tab>Log In</Tab>
                         <Tab>Sign up</Tab>
