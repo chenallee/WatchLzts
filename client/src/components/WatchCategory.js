@@ -8,6 +8,8 @@ import {
     Modal, ModalOverlay, ModalContent, useDisclosure, ModalCloseButton, ModalBody, useColorMode
 } from "@chakra-ui/core";
 
+import { useLocation } from 'react-router-dom';
+
 // import context for global state
 import UserInfoContext from '../utils/UserInfoContext';
 
@@ -35,7 +37,7 @@ function WatchCategory({ category }) {
     }
     
     useEffect(() => {
-
+    console.log(category);
         let showArr = [];
         userData.savedShows.forEach((show) => {
             if(show.watchStatus === category){
@@ -45,11 +47,11 @@ function WatchCategory({ category }) {
         //console.log(showArr)
         setCategoryShows(showArr);
   
-      }, [userData]);
+      }, [userData, category]);
 
     return (
         <>
-            <AccordionHeader rounded='md' bg={colorMode === 'dark' ? `${cateColors[category]}.100` : `${cateColors[category]}.200`} color={colorMode === 'dark' ? 'black' : ''}
+            {/* <AccordionHeader rounded='md' bg={colorMode === 'dark' ? `${cateColors[category]}.100` : `${cateColors[category]}.200`} color={colorMode === 'dark' ? 'black' : ''}
             _expanded={{ bg: colorMode === 'dark' ? `${cateColors[category]}.200` : `${cateColors[category]}.400`, color: 'white' }}
             _hover={{ bg: colorMode === 'dark' ? `${cateColors[category]}.50` : `${cateColors[category]}.100`}}
             >
@@ -63,14 +65,17 @@ function WatchCategory({ category }) {
             <AccordionPanel pb={4} 
             maxHeight='70vh'
             overflowY='scroll'
-            >
-                <Flex marginBottom='1rem' flexDir='column' alignItems='center'>
+            > */}
+
+                {/* <Flex marginBottom='1rem' flexDir='column' alignItems='center'>
                     {categoryShows.length ? (<></>) : (<Text>{cate404[category]} 📺</Text>)}
-                <Button size='lg' onClick={onOpen} leftIcon="small-add" variant='ghost' variantColor={cateColors[category]}> Add Show... </Button>
-                </Flex>
+               
+                </Flex> */}
                 <SimpleGrid 
-                //columns={{sm: '1', }}
-                spacing='1rem' minChildWidth='300px'>
+                // columns={{md: '2', }}
+                spacing='1rem' 
+                minChildWidth='350px'
+                >
 
                             {categoryShows.map((show) => {
                                     return (
@@ -79,16 +84,9 @@ function WatchCategory({ category }) {
                  })}
                            
                 </SimpleGrid>
-            </AccordionPanel>
+            {/* </AccordionPanel> */}
 
-            <Modal isOpen={isOpen} scrollBehavior='inside' onClose={onClose} size={{sm: '100%', md:'90%', xl: '80%'}}
-                
-            >
-                <ModalOverlay />
-                <ModalContent rounded='lg'  backgroundColor={colorMode === 'dark' ? 'gray.900' : 'white'}>
-                    <AddShowModal defaultCategory={category} cateColor={cateColors[category]} />
-                </ModalContent>
-            </Modal>
+
         </>
     );
 }

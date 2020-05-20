@@ -7,7 +7,7 @@ import AuthService from '../utils/auth';
 
 import { searchTvMaze, getSeasons, getEpisodes, saveShow, getShow, updateShow } from '../utils/API';
 
-function AddShowModal({ defaultCategory, cateColor }) {
+function AddShowModal() {
     const [searchedShows, setSearchedShows] = useState([]);
 
     const [searchInput, setSearchInput] = useState('');
@@ -37,7 +37,7 @@ function AddShowModal({ defaultCategory, cateColor }) {
                     title: show.name,
                     summary: show.summary,
                     image: show.image?.original || `https://via.placeholder.com/680x1000?text=No+Image`,
-                    watchStatus: defaultCategory,
+                    watchStatus: 'to watch',
 
                 }));
                 //showData.episodes.length = 0;
@@ -169,10 +169,10 @@ function AddShowModal({ defaultCategory, cateColor }) {
 
                                             <Select
                                                 disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}
-                                                backgroundColor={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
+                                                // backgroundColor={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
 
-                                                border={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
-                                                color={colorMode === 'dark' ? `black` : `white`}
+                                                // border={colorMode === 'dark' ? `${cateColor}.100` : `${cateColor}.400`}
+                                                // color={colorMode === 'dark' ? `black` : `white`}
                                                 defaultValue={show.watchStatus}
                                                 onChange={(e) => stageWatchStatus(e.target.value, show.tvMazeId)}
                                             >

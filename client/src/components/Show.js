@@ -274,13 +274,17 @@ function Show({ show, cateColor }) {
     }
 
     return (
-        <PseudoBox className={flipCard ? 'flip-container flip' : 'flip-container'} mx='auto'>
+        <PseudoBox className={flipCard ? 'flip-container flip' : 'flip-container'} //mx='auto'
+        
+        >
 
             <PseudoBox className='flipper'>
 
                 <Flex bg={colorMode === 'dark' ? 'black' : 'white'} overflow='hidden' align='center' rounded='lg'
 
-                    flexDir='column' shadow='lg' className='front'  >
+                    flexDir='column' className='front' 
+                    boxShadow='5px 5px 5px rgba(0, 0, 0, 0.2)' 
+                    >
 
                     <PseudoBox overflow='hidden'>
                         <Image cursor='pointer' onClick={handleFlip} width='100%' src={show.image} alt={`${show.title} cover`} />
@@ -310,7 +314,8 @@ function Show({ show, cateColor }) {
                 </Flex>
 
                 <Flex bg={colorMode === 'dark' ? 'black' : 'white'} overflow='hidden' align='center' rounded='lg'
-                    flexDir='column' shadow='lg' className='back' >
+                    flexDir='column' className='back'
+                    boxShadow='5px 5px 5px rgba(0, 0, 0, 0.1)' >
                     <Flex width='100%' justifyContent='space-between' height='10%'>
                         <IconButton size='lg' variant='ghost' variantColor='tartorange' aria-label="delete show" icon="delete"
                             onClick={() => handleDeleteShow(show.tvMazeId)} />

@@ -1,7 +1,7 @@
-# Watchlzts
-A site that allows users to track their watch status for tv shows. If you don't want to sign up, you can test it out with the username macaroni and password crunchies. 
+# WatchLzts
+A site that allows users to track their watch status for tv shows. If you don't want to sign up, you can test it out with the `username: macaroni` and `password: crunchies`. 
 
-Sometimes you watch shows on different platforms or different accounts. Watchlzts is a way for you to track how far you've gotten in each show!
+Sometimes you watch shows on different platforms or different accounts. WatchLzts is a way for you to track how far you've gotten in each show!
 
 ## usage
 Check out the live site [here](https://rocky-reaches-00818.herokuapp.com/)!
@@ -12,7 +12,7 @@ Once you have some shows added, you can use the select dropdown on the front of 
 
 You can also select whether to use the site in light or dark mode.
 
-As of right now, there is no procedures in place to recover forgotten passwords, so keep that in mind if you intend to use Watchlzts!
+As of right now, there is no procedures in place to recover forgotten passwords, so keep that in mind if you intend to use WatchLzts!
 
 ## technologies
 A full stack MERN ([MongoDB](https://www.mongodb.com/), [Express](https://expressjs.com/), [React](https://reactjs.org/), [Node.js](https://nodejs.org/en/)) app made using [Create React App](https://create-react-app.dev/).
