@@ -1,8 +1,7 @@
 # WatchLzts
 A site that allows users to track their watch status for tv shows. If you don't want to sign up, you can test it out with the `username: macaroni` and `password: crunchies`. 
 
-Sometimes you watch shows on different platforms or different accounts. WatchLzts is a way for you to track how far you've gotten in each show!
-
+Sometimes you watch shows on different platforms or different accounts. WatchLzts lets you keep track of the shows you want to watch, the ones you’re currently watching, and those you’ve completed. You can even record how far you've gotten in each show. So when you continue your ‘Avatar: The Last Airbender’ rewatch at your partner’s house - you don’t have to read episode descriptions or switch accounts to pick up where you last left off. 
 ## usage
 Check out the live site [here](https://watchlzts.herokuapp.com/)!
 
