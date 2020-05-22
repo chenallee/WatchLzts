@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 
 import { useUpdateEffect } from 'react-use';
 
-import { Box, Image, Flex, Heading, Text, Select, IconButton, PseudoBox,  Icon, Input, InputGroup, InputRightAddon, Stack,  Checkbox, useColorMode } from "@chakra-ui/core";
+import { Box, Image, Flex, Heading, Text, Select, IconButton, PseudoBox,  Icon, Input, InputGroup, InputRightAddon, Stack,  Checkbox, useColorMode, useToast } from "@chakra-ui/core";
 
 // import context for global state
 import UserInfoContext from '../utils/UserInfoContext';
@@ -17,6 +17,7 @@ function Show({ show }) {
         'dark': '#242423',
         'light': 'white',
     }
+    const toast = useToast();
     const [flipCard, setFlipCard] = useState(false);
     const handleFlip = () => setFlipCard(!flipCard);
     const [watchStatus, setWatchStatus] = useState(show.watchStatus);
@@ -33,6 +34,14 @@ function Show({ show }) {
         // if watchStatus is set to 'completed' && if episodeState is all complete -> call endpoint here
         // if watchStatus is set to 'to watch' && if episodeState is all 0 -> call endpoint here
         // if watchStatus is set to 'watching' -> we don't care what episode state is -> call endpoint here
+        toast({
+            title: `Show updated.`,
+            description: `${show.title} moved to ${watchStatus}`,
+            status: "success",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: false,
+        })
 
         if (watchStatus === showStatus || watchStatus === 'watching') {
             //console.log('call endpoint here');
@@ -125,7 +134,10 @@ function Show({ show }) {
             return false;
         }
         updateShow(show.tvMazeId, token, showToUpdate)
-            .then(() => userData.getUserData())
+            .then(() => {
+                
+                userData.getUserData()
+            })
             .catch((err) => console.log(err));
     }
 
