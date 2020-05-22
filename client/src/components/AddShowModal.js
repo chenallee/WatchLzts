@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 
-import { ModalHeader, ModalBody, ModalCloseButton, Input,  Stack, IconButton, SimpleGrid, Flex, Heading, Text, Box, Image, AspectRatioBox, Select, Button, useColorMode } from "@chakra-ui/core";
+import { ModalHeader, ModalBody, ModalCloseButton, Input,  Stack, IconButton, SimpleGrid, Flex, Heading, Text, Box, Image, AspectRatioBox, Select, Button, useColorMode, Spinner } from "@chakra-ui/core";
 
 import UserInfoContext from '../utils/UserInfoContext';
 import AuthService from '../utils/auth';
@@ -46,6 +46,7 @@ function AddShowModal() {
                     summary: show.summary,
                     image: show.image?.original || `https://via.placeholder.com/680x1000?text=No+Image`,
                     watchStatus: 'to watch',
+                    loading: false
 
                 }));
                 //showData.episodes.length = 0;
@@ -118,8 +119,8 @@ function AddShowModal() {
     }
 
     async function handleSaveShow(showId) {
-
         let showToFormat = searchedShows.find((show) => show.tvMazeId == showId);
+        showToFormat.loading = true;
         //searchedShows.splice(showToSave);
         //console.log(searchedShows);
 
@@ -139,7 +140,9 @@ function AddShowModal() {
 
 
         saveShow(showToSave, token)
-            .then(() => userData.getUserData())
+            .then(() => {
+                showToFormat.loading = false;
+                userData.getUserData()})
             .catch((err) => console.log(err));
     }
 
@@ -183,7 +186,9 @@ function AddShowModal() {
                                         <Flex flexDir='column' minWidth={{ sm: '40%', xl: '50%' }}>
                                             <AspectRatioBox ratio={3 / 4} maxWidth={{ xl: '60%', }} margin='0 20%'>
                                                 <Image src={`${show.image}`} alt={`${show.title}`} rounded='lg' />
+                                                
                                             </AspectRatioBox>
+                                            
                                             <Heading as='h4' size='lg' alignSelf='center' marginY='1rem'>{show.title}</Heading>
 
                                             <Select
@@ -196,7 +201,8 @@ function AddShowModal() {
                                                 <option value="watching">watching</option>
                                                 <option value="completed">completed</option>
                                             </Select>
-                                            <Button leftIcon={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)
+                                            <Button 
+                                            leftIcon={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)
                                                 ? 'check'
                                                 : 'add'}
                                                 
@@ -204,9 +210,13 @@ function AddShowModal() {
                                                 backgroundImage='linear-gradient(315deg, rgba(255,255,255,0) 0%, rgba(254,37,194,0.20211834733893552) 100%)'
                                                 onClick={() => handleSaveShow(show.tvMazeId)}
                                                 disabled={userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)}>
+                                                {show.loading ? <Spinner /> : <>
                                                 {userData.savedShows?.some((savedShow) => savedShow.tvMazeId == show.tvMazeId)
-                                                    ? 'Already on list!'
-                                                    : 'Add to list!!'}
+                                                    ? 'Already on list! '
+                                                    : 'Add to list!! '}
+                                                    </>
+                                                }
+                                                
                                             </Button>
 
 
